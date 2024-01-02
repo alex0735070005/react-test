@@ -1,18 +1,9 @@
 import { Dish } from "./dish";
-import { useDispatch, useSelector} from "react-redux";
-import { useEffect } from "react";
-import { getDishes } from "../redux/entities/dish/thunks/get-dishes";
-import {selectDishLoadingStatus} from "../redux/entities/dish/selectors";
 
-export const Dishes = ({ restaurantId, dishIds }) => {
+export const Dishes = ({ dishIds }) => {
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getDishes(restaurantId))
-  }, [restaurantId])
-
-  const loadingStatus = useSelector(selectDishLoadingStatus)
-  if (loadingStatus === 'pending') return "Loading..."
+  // 2.3 Make a request for data dishes by restaurantId
+  // 2.4 Add loader
 
   return (
     <ul>
