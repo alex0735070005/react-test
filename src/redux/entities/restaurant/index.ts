@@ -12,23 +12,16 @@ export const restaurantSlice = createSlice({
   extraReducers: builder =>
     builder
       .addCase(getRestaurants.pending,
-      (state) => {
-        state.status = REQUEST_STATUSES.PENDING;
+
       })
       .addCase(getRestaurants.fulfilled,
-        (state, { payload }) => {
-
-/*        3. Write data merging logic
-
-          3.2 Data and id were merged and not overwritten
-          3.3 id were not duplicated if there are repetitions
-*/
-
+        (state) => {
+            /*
+            1.2 Save data to the store, write createSlice
+            */
         }
       )
       .addCase(getRestaurants.rejected,
-        (state) => {
-          state.status = REQUEST_STATUSES.REJECTED;
-        }
+
       )
 })

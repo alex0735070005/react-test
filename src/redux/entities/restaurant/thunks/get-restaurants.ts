@@ -4,13 +4,9 @@ import { selectRestaurantIds } from "../selectors";
 export const getRestaurants = createAsyncThunk(
   'restaurant/getRestaurants',
   async (_, { rejectWithValue}) => {
-    const response = await fetch('http://localhost:3001/api/restaurants');
-    const result = await response.json();
 
-    if (!result?.length) {
-      return rejectWithValue("Empty restaurants")
-    }
-    return result;
+    // 1.1 Write a request to createAsyncThunk
+
   },
   {
     condition: () => {
