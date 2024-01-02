@@ -17,21 +17,12 @@ export const dishSlice = createSlice({
         })
       .addCase(getDishes.fulfilled, (state, { payload }) => {
 
-        entityAdapter.upsertMany(state, payload)
-/*
+/*        3. Write data merging logic
 
-      Решение без entityAdapter
-      state.entities = payload.reduce((acc, dish) => {
-          acc[dish.id] = dish;
-          return acc;
-        }, state.entities)
+        3.2 Data and id were merged and not overwritten
+        3.3 id were not duplicated if there are repetitions
+*/
 
-        state.ids = Array.from(
-          new Set([...state.ids, ...payload.map(({ id }) => id)])
-        )*/
-
-
-        state.status = REQUEST_STATUSES.FULFILLED;
       })
       .addCase(getDishes.rejected,
         (state) => {

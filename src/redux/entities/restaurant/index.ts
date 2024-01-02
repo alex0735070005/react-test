@@ -18,14 +18,12 @@ export const restaurantSlice = createSlice({
       .addCase(getRestaurants.fulfilled,
         (state, { payload }) => {
 
-          state.entities = payload.reduce((acc, restaurant) => {
-            acc[restaurant.id] = restaurant;
-            return acc;
-          }, {});
+/*        3. Write data merging logic
 
-          state.ids = payload.map(({id}) => id);
+          3.2 Data and id were merged and not overwritten
+          3.3 id were not duplicated if there are repetitions
+*/
 
-          state.status = REQUEST_STATUSES.FULFILLED;
         }
       )
       .addCase(getRestaurants.rejected,
