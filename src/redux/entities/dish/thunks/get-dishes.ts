@@ -15,13 +15,12 @@ export const getDishes = createAsyncThunk(
     return result;
   },
   {
-      condition: (restaurantId, { getState }) => {
-          const dishIdsByRestaurantId = selectRestaurantBiId(getState(), restaurantId).menu;
-          const dishIds = selectDishIds(getState());
+      condition: (restaurant) => {
+/*
+          3. Write query optimization logic
+          3.1 If the data has been downloaded a second time, we do not download it
+*/
 
-          return !dishIdsByRestaurantId.every(dishId => {
-              return dishIds.includes(dishId)
-          })
       }
   }
 )

@@ -13,6 +13,11 @@ export const getRestaurants = createAsyncThunk(
     return result;
   },
   {
-    condition: (_, { getState }) => !selectRestaurantIds(getState()).length
+    condition: () => {
+      /*
+          3. Write query optimization logic
+          3.1 If the data has been downloaded a second time, we do not download it
+*/
+    }
   }
 )
