@@ -1,17 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Tabs } from "../components/tabs";
 import { Restaurant } from "../components/restaurant";
+import { getRestaurants } from "../redux/entities/restaurant/thunks/get-restaurants";
+import { useAppDispatch } from "../redux";
+import { IRestaurant } from "../interfaces";
 
 export const Restaurants = () => {
+  const [activeRestaurantId, setActiveRestaurantId] = useState<string>("");
 
-  const [activeRestaurantId, setActiveRestaurantId] = useState(null);
+  const dispatch = useAppDispatch();
 
-  // 1.3 Make a request for restaurant data
+  useEffect(() => {
+    dispatch(getRestaurants()).then((data) => {
+      const [firstItem] = data.payload as IRestaurant[];
+
+      if (firstItem) {
+        setActiveRestaurantId(firstItem.id);
+      }
+    });
+  }, []);
 
   return (
     <div>
-      <Tabs onRestaurantSelect={(restaurantId) => setActiveRestaurantId(restaurantId)} />
+      <Tabs
+        activeRestaurantId={activeRestaurantId}
+        onRestaurantSelect={(restaurantId) =>
+          setActiveRestaurantId(restaurantId)
+        }
+      />
       <Restaurant restaurantId={activeRestaurantId} />
     </div>
-  )
-}
+  );
+};

@@ -1,10 +1,19 @@
-export const selectRestaurantModule = state => state.restaurant;
+import { IRestaurant } from "../../../interfaces";
+import { RootState } from "../../index";
 
-export const selectRestaurantIds = state => selectRestaurantModule(state).ids;
+export const selectRestaurantModule = (state: RootState) => state.restaurant;
 
-export const selectRestaurantBiId = (state, id) => selectRestaurantModule(state).entities[id];
+export const selectRestaurantIds = (state: RootState) =>
+  selectRestaurantModule(state).ids;
 
-export const selectRestaurantLoadingStatus = (state) =>
+export const selectRestaurantBiId = (state: RootState, id: string) => {
+  const result = selectRestaurantModule(state).entities as Record<
+    string,
+    IRestaurant
+  >;
+
+  return result[id];
+};
+
+export const selectRestaurantLoadingStatus = (state: RootState) =>
   selectRestaurantModule(state).status;
-
-
