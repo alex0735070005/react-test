@@ -1,19 +1,45 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { selectRestaurantIds } from "../selectors";
+import { IRestaurant } from "../../../../interfaces";
+import { RootState } from "../../..";
+import { REQUEST_STATUSES } from "../../../../constants/request-statuses";
 
-export const getRestaurants = createAsyncThunk(
-  'restaurant/getRestaurants',
-  async (_, { rejectWithValue}) => {
+interface ThunkApiConfig {
+  rejectValue: string;
+}
 
-    // 1.1 Write a request to createAsyncThunk
+export const getRestaurants = createAsyncThunk<
+  IRestaurant[],
+  void,
+  ThunkApiConfig
+>(
+  "restaurant/getRestaurants",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await fetch("http://localhost:3001/api/restaurants");
 
+      if (!response.ok) {
+        return rejectWithValue("Failed to fetch restaurants");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue("Failed to fetch restaurants");
+    }
   },
   {
-    condition: () => {
-      /*
-          3. Write query optimization logic
-          3.1 If the data has been downloaded a second time, we do not download it
-*/
-    }
+    condition: (_, { getState }) => {
+      const state = getState() as RootState;
+      const { entities, status } = state.restaurant;
+
+      if (
+        status === REQUEST_STATUSES.FULFILLED ||
+        Object.keys(entities).length > 0
+      ) {
+        return false;
+      }
+
+      return true;
+    },
   }
-)
+);
